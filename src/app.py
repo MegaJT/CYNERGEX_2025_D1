@@ -1,3 +1,4 @@
+#
 from dash import Dash, html, dcc, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
@@ -13,7 +14,8 @@ app = Dash(__name__,
     assets_folder='assets',
     external_stylesheets=['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'],
     suppress_callback_exceptions=True,
-    use_pages=True  # Enable pages
+    use_pages=True,  # Enable pages
+    
 )
 
 server = app.server
@@ -52,6 +54,7 @@ login_layout = html.Div([
     html.Div([
         html.Img(src='assets/logo.png', style={'height': '100px'}),
         html.H1('Mystery Shopping Dashboard Login'),
+        
     ], className='login-banner'),
     
     html.Div([
@@ -113,8 +116,9 @@ def display_page(pathname):
     # User is authenticated, show the requested page
     return html.Div([
         html.Div([
-            html.Img(src='assets/logo2.png', style={'height': '100px'}),
+            html.Img(src='assets/logo0.png', style={'height': '100px'}),
             html.H1('Mystery Shopping Dashboard'),
+            html.Img(src='assets/CYN_Logo1.png', style={'height': '100px'}),
         ], className='banner'),
         navbar,
         dash.page_container
@@ -152,3 +156,5 @@ def logout_user_callback(n_clicks):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+

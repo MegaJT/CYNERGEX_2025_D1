@@ -10,8 +10,13 @@ dash.register_page(__name__, path='/branch', title='Branch', order=1)
 # Try to load data
 try:
     df = pd.read_csv(r'S_BRANCH_EVAL CSV.csv',index_col=False)
+    df['Branch'] = df['Branch'].map({1: 'Dubai', 2: 'Sharjah'})  # Map branch numbers to names
+    df['NATIONALITY'] = df['NATIONALITY'].map({1: 'Emarati', 2: 'Non-Emarati'})  # Map branch numbers to names
+
 except:
     df = pd.DataFrame()  # Create empty dataframe if file not found
+
+
 
 
 # Layout
@@ -53,15 +58,15 @@ layout = html.Div([
     ], className='filters-container'),
     
     # Cards section
-    html.Div(id='cards-container', className='card-container'),
+    html.Div(id='cards-container_b', className='card-container'),
     
     # Charts section
-    html.Div(id='charts-container', className='chart-grid')
+    html.Div(id='charts-container_b', className='chart-grid')
 ])
 
 # Callbacks for updating cards and charts based on filters
 @callback(
-    Output('cards-container', 'children'),
+    Output('cards-container_b', 'children'),
     [Input('appointment-type-dropdown', 'value'),
      Input('branch-name-dropdown', 'value'),
      Input('nationality-dropdown', 'value')]
@@ -107,7 +112,7 @@ def update_cards(appointment_type, branch_name, nationality):
     return [card1, card2, card3, card4, card5, card6, card7, card8]
 
 @callback(
-    Output('charts-container', 'children'),
+    Output('charts-container_b', 'children'),
     [Input('appointment-type-dropdown', 'value'),
      Input('branch-name-dropdown', 'value'),
      Input('nationality-dropdown', 'value')]
