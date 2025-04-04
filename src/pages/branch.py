@@ -2,94 +2,156 @@ import dash
 from dash import html, dcc, callback, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
-from helper import generate_card, create_bar_chart, create_metric_chart
+from helper import load_data,generate_card, create_bar_chart, create_metric_chart,Month_Dict,create_month_filter
+from flask_login import current_user
+
 
 # Register the page
 dash.register_page(__name__, path='/branch', title='Branch', order=1)
 
+
+
 # Try to load data
-try:
-    df = pd.read_csv(r'S_BRANCH_EVAL CSV.csv',index_col=False)
-    df['Branch'] = df['Branch'].map({1: 'Dubai', 2: 'Sharjah'})  # Map branch numbers to names
-    df['NATIONALITY'] = df['NATIONALITY'].map({1: 'Emarati', 2: 'Non-Emarati'})  # Map branch numbers to names
-
-except:
-    df = pd.DataFrame()  # Create empty dataframe if file not found
+df=load_data(r'S_BRANCH_EVAL CSV.csv',segment='Branch')
 
 
-
+# Create a function to get filtered dataframe based on user
+def get_user_filtered_df():
+    
+    filtered_df = df.copy() if not df.empty else pd.DataFrame()
+    
+    if not filtered_df.empty and current_user.is_authenticated:
+        if current_user.id == 'Admin':
+            filtered_df = filtered_df
+        elif current_user.id == 'Dubai':
+            filtered_df = filtered_df[filtered_df['Branch'] == 'Dubai']
+        elif current_user.id == 'Sharjah':
+            filtered_df = filtered_df[filtered_df['Branch'] == 'Sharjah']
+        elif current_user.id == 'Abudhabi':
+            filtered_df = filtered_df[filtered_df['Branch'] == 'Abu Dhabi']
+    
+    return filtered_df
 
 # Layout
-layout = html.Div([
-    # Filters section
-    html.Div([
+def layout():
+    user_df = get_user_filtered_df()
+    return html.Div([
+        # Add this to your branch.py layout, right after the filters-container div
         html.Div([
-            html.Label("Appointment Type"),
-            dcc.Dropdown(
-                id='appointment-type-dropdown',
-                options=[{'label': 'Overall', 'value': 'Overall'}] + 
-                        [{'label': val, 'value': val} for val in df['Q1'].unique() if pd.notna(val)] if not df.empty else [],
-                value='Overall',
-                clearable=False
-            )
-        ], className='filter-item'),
+        html.H3("Branch Evaluation"),
+        html.Div(id='visit-count') 
+        ], className="title"),
+
+        html.Div(id='branch-trigger', style={'display': 'none'}),
         
         html.Div([
-            html.Label("Branch Name"),
-            dcc.Dropdown(
-                id='branch-name-dropdown',
-                options=[{'label': 'Overall', 'value': 'Overall'}] + 
-                        [{'label': val, 'value': val} for val in df['Branch'].unique() if pd.notna(val)] if not df.empty else [],
-                value='Overall',
-                clearable=False
-            )
-        ], className='filter-item'),
+            create_month_filter(user_df, column_name='WAVE', id_prefix='branch-'),
+
+            html.Div([
+                html.Label("Appointment Type"),
+                dcc.Dropdown(
+                    id='appointment-type-dropdown',
+                    options=[{'label': 'Overall', 'value': 'Overall'}] + 
+                            [{'label': val, 'value': val} for val in user_df['Q1_1'].unique() if pd.notna(val)] if not user_df.empty else [],
+                    value='Overall',
+                    clearable=False
+                )
+            ], className='filter-item'),
+            
+            html.Div([
+                html.Label("Branch Name"),
+                dcc.Dropdown(
+                    id='branch-name-dropdown',
+                    options=[{'label': 'Overall', 'value': 'Overall'}] + 
+                            [{'label': val, 'value': val} for val in user_df['Branch'].unique() if pd.notna(val)] if not user_df.empty else [],
+                    value='Overall',
+                    clearable=False
+                )
+            ], className='filter-item'),
+            
+            html.Div([
+                html.Label("MS Nationality"),
+                dcc.Dropdown(
+                    id='nationality-dropdown',
+                    options=[{'label': 'Overall', 'value': 'Overall'}] + 
+                            [{'label': val, 'value': val} for val in user_df['NATIONALITY'].unique() if pd.notna(val)] if not user_df.empty else [],
+                    value='Overall',
+                    clearable=False
+                )
+            ], className='filter-item'),
+        ], className='filters-container'),
         
-        html.Div([
-            html.Label("MS Nationality"),
-            dcc.Dropdown(
-                id='nationality-dropdown',
-                options=[{'label': 'Overall', 'value': 'Overall'}] + 
-                        [{'label': val, 'value': val} for val in df['NATIONALITY'].unique() if pd.notna(val)] if not df.empty else [],
-                value='Overall',
-                clearable=False
-            )
-        ], className='filter-item'),
-    ], className='filters-container'),
+        # Cards section
+        html.Div(id='cards-container_b', className='card-container'),
+        
+        # Charts section
+        html.Div(id='charts-container_b', className='chart-grid')
+    ])
+
+
+@callback(
+    Output('visit-count', 'children'),
+    [Input('appointment-type-dropdown', 'value'),
+     Input('branch-name-dropdown', 'value'),
+     Input('nationality-dropdown', 'value'),
+     Input('branch-month-dropdown', 'value')])
+def update_visit_count(appointment_type, branch_name, nationality, month):
+    # Filter data based on selections
+    filtered_df = get_user_filtered_df()
     
-    # Cards section
-    html.Div(id='cards-container_b', className='card-container'),
+    if not filtered_df.empty:
+        if appointment_type != 'Overall':
+            filtered_df = filtered_df[filtered_df['Q1_1'] == appointment_type]
+            
+        if branch_name != 'Overall':
+            filtered_df = filtered_df[filtered_df['Branch'] == branch_name]
+            
+        if nationality != 'Overall':
+            filtered_df = filtered_df[filtered_df['NATIONALITY'] == nationality]
+            
+        if month != 'Overall':
+            if isinstance(month, list):
+                if 'Overall' not in month:
+                    filtered_df = filtered_df[filtered_df['WAVE'].isin(month)]
+            else:
+                filtered_df = filtered_df[filtered_df['WAVE'] == month]
     
-    # Charts section
-    html.Div(id='charts-container_b', className='chart-grid')
-])
+    # Get the count of records
+    visit_count = len(filtered_df) if not filtered_df.empty else 0
+    
+    return f"Base: {visit_count} Visits"
 
 # Callbacks for updating cards and charts based on filters
 @callback(
     Output('cards-container_b', 'children'),
     [Input('appointment-type-dropdown', 'value'),
      Input('branch-name-dropdown', 'value'),
-     Input('nationality-dropdown', 'value')]
+     Input('nationality-dropdown', 'value'),
+     Input('branch-month-dropdown', 'value') ]
 )
-def update_cards(appointment_type, branch_name, nationality):
+def update_cards(appointment_type, branch_name, nationality,month):
     # Filter data based on selections
-    filtered_df = df.copy() if not df.empty else pd.DataFrame()
+    filtered_df = get_user_filtered_df()
     
     if not df.empty:
         if appointment_type != 'Overall':
-            filtered_df = filtered_df[filtered_df['Q1'] == appointment_type]
+            filtered_df = filtered_df[filtered_df['Q1_1'] == appointment_type]
         
         if branch_name != 'Overall':
             filtered_df = filtered_df[filtered_df['Branch'] == branch_name]
         
         if nationality != 'Overall':
             filtered_df = filtered_df[filtered_df['NATIONALITY'] == nationality]
+        
+        if month!= 'Overall':
+            if isinstance(month, list):
+                if 'Overall' not in month:
+                    filtered_df = filtered_df[filtered_df['WAVE'].isin(month)]
+            else:
+                filtered_df = filtered_df[filtered_df['WAVE'] == month]    
     
-    # Calculate scores (replace with actual calculations based on your data)
-    # For now, using placeholder values
-    # In a real implementation, you would calculate these from filtered_df
     
-    # Example: overall_score = filtered_df['OVERALL_SCORE'].mean()
+    
     overall_score = round(filtered_df['wOverallScore'].mean()) if not filtered_df.empty else 0
     impression_score = round(filtered_df['wOverallImpression'].mean()) if not filtered_df.empty else 0
     initial_greet_score =round(filtered_df['wInitialgreet'].mean()) if not filtered_df.empty else 0
@@ -100,37 +162,47 @@ def update_cards(appointment_type, branch_name, nationality):
     follow_up_score =round(filtered_df['wFollowup'].mean()) if not filtered_df.empty else 0
     
     # Create cards
-    card1 = generate_card('OVERALL', overall_score, "fas fa-certificate")
-    card2 = generate_card('IMPRESSION', impression_score, "fas fa-crown")
+    card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
+    card2 = generate_card('OVERALL IMPRESSION', impression_score, "fas fa-crown")
     card3 = generate_card('INITIAL GREET', initial_greet_score, "fas fa-handshake")
-    card4 = generate_card('INTERACTION', interaction_score, "fas fa-users")
-    card5 = generate_card('KNOWLEDGE', knowledge_score, "fas fa-brain")
-    card6 = generate_card('CLOSING', closing_score, "fas fa-xmark")
-    card7 = generate_card('FACILITY', facility_score, "fas fa-city")
-    card8 = generate_card('FOLLOW UP', follow_up_score, "fas fa-phone")
+    card4 = generate_card('SALES CONSULTANT INTERACTION', interaction_score, "fas fa-users")
+    card5 = generate_card('SALES CONSULTANT’S KNOWLEDGE', knowledge_score, "fas fa-brain")
+    card6 = generate_card('CLOSING / FINANCE PROCESS / DOCUMENTATION ', closing_score, "fas fa-xmark")
+    card7 = generate_card('FACILITY AROUND THE SHOWROOM', facility_score, "fas fa-city")
+    card8 = generate_card('POST VISIT COMMUNICATION/FOLLOW UP', follow_up_score, "fas fa-phone")
     
-    return [card1, card2, card3, card4, card5, card6, card7, card8]
+    if not filtered_df.empty:
+        return [card1, card2, card3, card4, card5, card6, card7, card8]
+    else:
+        return[html.H1("No Data Available")]
 
 @callback(
     Output('charts-container_b', 'children'),
     [Input('appointment-type-dropdown', 'value'),
      Input('branch-name-dropdown', 'value'),
-     Input('nationality-dropdown', 'value')]
+     Input('nationality-dropdown', 'value'),
+     Input('branch-month-dropdown', 'value') ]
 )
-def update_charts(appointment_type, branch_name, nationality):
+def update_charts(appointment_type, branch_name, nationality,month):
     # Filter data based on selections
-    filtered_df = df.copy() if not df.empty else pd.DataFrame()
+    filtered_df = get_user_filtered_df()
     
     if not df.empty:
         if appointment_type != 'Overall':
-            filtered_df = filtered_df[filtered_df['Q1'] == appointment_type]
+            filtered_df = filtered_df[filtered_df['Q1_1'] == appointment_type]
         
         if branch_name != 'Overall':
             filtered_df = filtered_df[filtered_df['Branch'] == branch_name]
         
         if nationality != 'Overall':
             filtered_df = filtered_df[filtered_df['NATIONALITY'] == nationality]
-
+        
+        if month!= 'Overall':
+            if isinstance(month, list):
+                if 'Overall' not in month:
+                    filtered_df = filtered_df[filtered_df['WAVE'].isin(month)]
+            else:
+                filtered_df = filtered_df[filtered_df['WAVE'] == month]    
 
     
     IMPRESSION_METRICS = {
@@ -147,7 +219,7 @@ def update_charts(appointment_type, branch_name, nationality):
     ch_impression = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=IMPRESSION_METRICS,
-    chart_title="IMPRESSION"
+    chart_title="OVERALL IMPRESSION"
     )
 
     INITIAL_GREET_METRICS = {
@@ -190,7 +262,7 @@ def update_charts(appointment_type, branch_name, nationality):
     ch_interaction = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INTERACTION_METRICS,
-    chart_title="INTERACTION"
+    chart_title="SALES CONSULTANT INTERACTION'"
     )
 
 
@@ -211,7 +283,7 @@ def update_charts(appointment_type, branch_name, nationality):
     ch_knowledge = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=KNOWLEDGE_METRICS,
-    chart_title="KNOWLEDGE"
+    chart_title="SALES CONSULTANT’S KNOWLEDGE"
     )
     
     
@@ -229,7 +301,7 @@ def update_charts(appointment_type, branch_name, nationality):
     ch_closing = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=CLOSING_METRICS,
-    chart_title="CLOSING"
+    chart_title="CLOSING / FINANCE PROCESS / DOCUMENTATION "
     )
 
     FACILITY_METRICS = {
@@ -244,7 +316,7 @@ def update_charts(appointment_type, branch_name, nationality):
     ch_facility = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=FACILITY_METRICS,
-    chart_title="FACILITY"
+    chart_title="FACILITY AROUND THE SHOWROOM"
     )
 
     FOLLOWUP_METRICS = {
@@ -256,12 +328,15 @@ def update_charts(appointment_type, branch_name, nationality):
     ch_followup = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=FOLLOWUP_METRICS,
-    chart_title="FOLLOW UP"
+    chart_title="POST VISIT COMMUNICATION/FOLLOW UP"
     )
 
     # Create charts
     charts = [ch_impression,ch_initial_greet,ch_interaction,ch_knowledge,ch_closing,ch_facility,ch_followup]
 
+    if not filtered_df.empty:
+        return charts
+    else:
+        return []
     
     
-    return charts

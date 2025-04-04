@@ -1,4 +1,4 @@
-#
+# https://cynergex-2025-d1.onrender.com
 from dash import Dash, html, dcc, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
@@ -7,6 +7,8 @@ import os
 from datetime import timedelta
 import dash
 from dash.exceptions import PreventUpdate
+
+pd.set_option('future.no_silent_downcasting', True)
 
 
 # Initialize the app
@@ -35,9 +37,10 @@ class User(UserMixin):
 
 # Valid access codes (in a real app, store these securely in a database)
 VALID_CODES = {
-    '123456': 'user1',
-    '654321': 'user2',
-    '111111': 'user3',
+    '5823': 'Admin',
+    '1947': 'Dubai',
+    '7365': 'Sharjah',
+    '4091': 'Abudhabi',
 }
 
 server.config.update(
@@ -63,9 +66,9 @@ login_layout = html.Div([
             dcc.Input(
                 id='access-code',
                 type='password',
-                placeholder='Enter 6-digit code',
-                maxLength=6,
-                minLength=6,
+                placeholder='Enter 4-digit code',
+                maxLength=4,
+                minLength=4,
                 className='login-input'
             ),
             html.Button('Login', id='login-button', className='login-button'),

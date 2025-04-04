@@ -143,6 +143,20 @@
     text-align: center;
     letter-spacing: -3px;
     }
+.title {
+    background-color: #11030293;
+    color: white;
+    padding: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;     /* Centers vertically */
+    font-size: 15px;
+    text-shadow: var(--SHADOW);
+    box-shadow: var(--SHADOW);
+    text-align: center;
+    
+    }
+
 
 /*NAVBAR*/
 
@@ -227,50 +241,67 @@
     box-shadow:  var(--SHADOW);
     text-shadow: var(--SHADOW);
 
-    min-height: 100px;
-    max-height: 250px;
-    flex: 1; /* Make cards grow to fill available space */
+    min-height: 150px;
+    max-height: 400px;
+    flex: 1; 
     min-width: 120px; /* Minimum width for very small screens */
     max-width: 250px; /* Maximum width to prevent too large cards */
-    background-color:#fff0f0; /* Base color for all cards */
+    background-color:#f5f7fa; /* Base color for all cards */
 
-    border-bottom: 5px solid #bb7987; /* Cherry color top border */
+    border: 1px solid #1204073e; 
     }
 
+    
 .card:hover {
     transform: translateY(-5px);
 }
     
 
 .card-title {
-    
+    flex-grow: 1;
     height: 30%;
     padding: 1px;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 500;
-    color: #7b7575;   
+    color: #7b7575;  
+    
 
     }
+
+
 .card-body {
     height: 70%;
-    padding: 1px;
+    padding: 10px 1px;
     font-size: 60px;
     font-weight: 500;
-    color: hsla(251, 76%, 25%, 0.5);   
-
-        }
-
+    color: #fcfcfc;
+}
 .card-bg-icon {
     position: absolute;
     right: -10px;
     bottom: -10px;
     font-size: 80px;
-    opacity: 0.1;
+    opacity: 0.3;
     transform: rotate(-15deg);
-    color: #d13838;
+    color: #fcfcfc;
     z-index: 1;
 }
         
+/* Score indicator colors */
+.card .card-score-low {
+    background-color: #e60909; /* Red for low scores */
+    background: linear-gradient(to bottom, rgba(209, 56, 56, 0.807) 50%, rgba(242, 91, 91, 0.415) 100%);
+}
+
+.card .card-score-medium {
+    background-color: #e6a817; /* Yellow/Orange for medium scores */
+    background: linear-gradient(to bottom, rgba(230, 168, 23, 0.845) 50%, rgba(187, 176, 28, 0.799) 100%);
+}
+
+.card .card-score-high {
+    background-color: #2e8540; /* Green for high scores */
+    background: linear-gradient(to bottom, rgba(46, 133, 63, 0.833) 50%, rgba(2, 139, 64, 0.649) 100%);
+}
 
 
 /*CHART*/

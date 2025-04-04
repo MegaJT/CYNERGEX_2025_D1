@@ -2,22 +2,29 @@ import dash
 from dash import html, dcc, callback, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
-from helper import generate_card, create_bar_chart, create_metric_chart
+from helper import load_data,generate_card, create_bar_chart, create_metric_chart,create_month_filter
 
 dash.register_page(__name__, path='/contact', title='Contact Centre', order=2)
 
 # Try to load data
-try:
-    df = pd.read_csv(r'S_CONTACT_CENTRE CSV.csv',index_col=False)
-except:
-    df = pd.DataFrame()  # Create empty dataframe if file not found
+
+df=load_data(r'S_CONTACT_CENTRE CSV.csv',segment='Contact Centre')
+
+def safe_round_mean(series):
+    series = pd.to_numeric(series, errors='coerce')
+    mean_val = series.mean()  # Returns NaN if all values are NaN
+    return 0 if pd.isna(mean_val) else round(mean_val)    
 
 
 
 layout = html.Div([
-    # html.H1("Contact Centre Dashboard"),
-    # html.P("This page is under development. Content for Contact Centre will be displayed here."),
+   html.Div([
+        html.H2("Contact Center Evaluation"),
+        html.Div(id='visit-count-cc') 
+        ], className="title"),
     html.Div(id='contact-trigger', style={'display': 'none'}),
+
+    create_month_filter(df, column_name='WAVE', id_prefix='contact-'),
     # # Cards section
     html.Div(id='cards-container_cc', className='card-container'),
     
@@ -25,39 +32,78 @@ layout = html.Div([
     html.Div(id='charts-container_cc', className='chart-grid')
 ])
 
+@callback(
+    Output('visit-count-cc', 'children'),
+    Input('contact-month-dropdown', 'value')
+)
+def update_visit_count_cc(month):
+    # Filter data based on selections
+    filtered_df = df.copy() if not df.empty else pd.DataFrame()
+    if month!= 'Overall':
+            if isinstance(month, list):
+                if 'Overall' not in month:
+                    filtered_df = filtered_df[filtered_df['WAVE'].isin(month)]
+            else:
+                filtered_df = filtered_df[filtered_df['WAVE'] == month]    
+    # Get the count of records
+    visit_count = len(filtered_df) if not filtered_df.empty else 0
+    
+    return f"Base: {visit_count} Visits"
+    
+    
+
 # Callbacks for updating cards and charts based on filters
 @callback(
     Output('cards-container_cc', 'children'),
-    Input('contact-trigger', 'children')
+    Input('contact-month-dropdown', 'value')
 )
-def update_cards_cc(_):
+def update_cards_cc(month):
     # Filter data based on selections
     filtered_df = df.copy() if not df.empty else pd.DataFrame()
+    if month!= 'Overall':
+            if isinstance(month, list):
+                if 'Overall' not in month:
+                    filtered_df = filtered_df[filtered_df['WAVE'].isin(month)]
+            else:
+                filtered_df = filtered_df[filtered_df['WAVE'] == month]    
     
-    # Example: overall_score = filtered_df['OVERALL_SCORE'].mean()
-    overall_score = round(filtered_df['wOverallScore'].mean()) if not filtered_df.empty else 0
-    initial_greet_score =round(filtered_df['wGREETING'].mean()) if not filtered_df.empty else 0
-    agent_greet_score =round(filtered_df['wAGENTGREETING'].mean()) if not filtered_df.empty else 0
-    agent_ineraction_score =round(filtered_df['wINTERACTION'].mean()) if not filtered_df.empty else 0
-    impression_score =round(filtered_df['wIMPRESSION'].mean()) if not filtered_df.empty else 0
+    
+    
+    overall_score = safe_round_mean(filtered_df['wOverallScore']) if not filtered_df.empty and 'wOverallScore' in filtered_df.columns else 0
+    initial_greet_score =safe_round_mean(filtered_df['wGREETING']) if not filtered_df.empty and 'wGREETING' in filtered_df.columns else 0
+    agent_greet_score =safe_round_mean(filtered_df['wAGENTGREETING']) if not filtered_df.empty and 'wAGENTGREETING' in filtered_df.columns else 0
+    agent_ineraction_score =safe_round_mean(filtered_df['wINTERACTION']) if not filtered_df.empty and 'wINTERACTION' in filtered_df.columns else 0
+    impression_score =safe_round_mean(filtered_df['wIMPRESSION']) if not filtered_df.empty and 'wIMPRESSION' in filtered_df.columns else 0
+
     
     # Create cards
-    card1 = generate_card('OVERALL', overall_score, "fas fa-certificate")
+    card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
     card2 = generate_card('INITIAL GREET', initial_greet_score, "fas fa-handshake")
     card3 = generate_card('AGENT GREET', agent_greet_score, "fas fa-handshake")
     card4 = generate_card('INTERACTION', agent_ineraction_score, "fas fa-users")
     card5 = generate_card('IMPRESSION', impression_score, "fas fa-crown")
     
     
-    return [card1, card2, card3, card4, card5]
+    
+    if not filtered_df.empty:
+            return [card1, card2, card3, card4, card5]
+    else:
+            return[html.H1("No Data Available")]
 
 @callback(
     Output('charts-container_cc', 'children'),
-    Input('contact-trigger', 'children')
+    Input('contact-month-dropdown', 'value')
+
 )
-def update_charts_cc(_):
+def update_charts_cc(month):
     # Filter data based on selections
     filtered_df = df.copy() if not df.empty else pd.DataFrame()
+    if month!= 'Overall':
+            if isinstance(month, list):
+                if 'Overall' not in month:
+                    filtered_df = filtered_df[filtered_df['WAVE'].isin(month)]
+            else:
+                filtered_df = filtered_df[filtered_df['WAVE'] == month]   
     
     
     
@@ -140,4 +186,7 @@ def update_charts_cc(_):
 
     
     
-    return charts
+    if not filtered_df.empty:
+        return charts
+    else:
+        return[]
