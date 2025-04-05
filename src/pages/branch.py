@@ -290,10 +290,10 @@ def update_charts(appointment_type, branch_name, nationality,month):
     CLOSING_METRICS = {
     'iQ5a':"Service promotion approach",
     'iQ5b':"Pricing information provided",
-    'iQ5f':"Consultant's actions",
-    'iQ5c':"Eligibility information",
-    'iQ5d':"Finance and lease options",
-    'iQ5e':"Consultant's objection response",
+    'iQ5c':"Consultant's actions",
+    'iQ5d':"Eligibility information",
+    'iQ5e':"Finance and lease options",
+    'iQ5f':"Consultant's objection response",
     'iQ5g':"Sales consultant actions",
     'iQ5h':"Sales area appearance",
     }

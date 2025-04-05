@@ -19,7 +19,7 @@ def safe_round_mean(series):
 
 layout = html.Div([
    html.Div([
-        html.H2("Contact Center Evaluation"),
+        html.H3("Contact Center Evaluation"),
         html.Div(id='visit-count-cc') 
         ], className="title"),
     html.Div(id='contact-trigger', style={'display': 'none'}),
@@ -78,10 +78,10 @@ def update_cards_cc(month):
     
     # Create cards
     card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
-    card2 = generate_card('INITIAL GREET', initial_greet_score, "fas fa-handshake")
-    card3 = generate_card('AGENT GREET', agent_greet_score, "fas fa-handshake")
-    card4 = generate_card('INTERACTION', agent_ineraction_score, "fas fa-users")
-    card5 = generate_card('IMPRESSION', impression_score, "fas fa-crown")
+    card2 = generate_card('INITIAL GREETING', initial_greet_score, "fas fa-handshake")
+    card3 = generate_card('CALL AGENT GREETING', agent_greet_score, "fas fa-handshake")
+    card4 = generate_card('SALES CONSULTANT INTERACTION', agent_ineraction_score, "fas fa-users")
+    card5 = generate_card('OVERALL IMPRESSION', impression_score, "fas fa-crown")
     
     
     
@@ -117,7 +117,7 @@ def update_charts_cc(month):
     ch_initial_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INITIAL_GREET_METRICS,
-    chart_title="INITIAL GREET"
+    chart_title="INITIAL GREETING"
     )
 
     AGENT_GREET_METRICS = {
@@ -141,7 +141,7 @@ def update_charts_cc(month):
     ch_agent_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=AGENT_GREET_METRICS,
-    chart_title="AGENT GREET"
+    chart_title="CALL AGENT GREETING"
     )
 
 
@@ -161,7 +161,7 @@ def update_charts_cc(month):
     ch_interaction = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INTERACTION_METRICS,
-    chart_title="INTERACTION"
+    chart_title="SALES CONSULTANT INTERACTION"
     )
 
 
@@ -177,7 +177,7 @@ def update_charts_cc(month):
     ch_impression = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=IMPRESSION_METRICS,
-    chart_title="IMPRESSION"
+    chart_title="OVERALL IMPRESSION"
     )
     
     
