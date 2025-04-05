@@ -21,7 +21,7 @@ def safe_round_mean(series):
 
 layout = html.Div([
     html.Div([
-        html.H2("Website Evaluation"),
+        html.H3("Website Evaluation"),
         html.Div(id='visit-count-wb') 
         ], className="title"),
 
@@ -130,18 +130,18 @@ def update_charts_ws(month):
     )
 
     AGENT_GREET_METRICS = {
-    'iQ2b': 'Background noise level',
-    'iQ2c': 'Greeting quality',
-    'iQ2d': 'Agent attentiveness',
-    'iQ2e': 'Agent personalization.',
-    'iQ2f': 'Agent manner',
-    'iQ2g': "Agent communication clarity",
-    'iQ2h':"Agent inquiries.",
-    'iQ2i_1':"Agent actions.",
-    'iQ2i_2':"Agent action recorded.",
-    'iQ2k_1':"Agent appointment confirmation.",
+    'iQ9b': 'Background noise level',
+    'iQ9c': 'Greeting quality',
+    'iQ9d': 'Agent attentiveness',
+    'iQ9e': 'Agent personalization.',
+    'iQ9f': 'Agent manner',
+    'iQ9g': "Agent communication clarity",
+    'iQ9h':"Agent inquiries.",
+    'iQ9i':"Agent actions.",
+    'iQ9j':"Agent action recorded.",
+    'iQ9k':"Agent appointment confirmation.",
     'iQ2l':"Appointment confirmation received.",
-    'iQ2m':"Average call duration.",
+    'iQ9m':"Average call duration.",
 
     }
 
