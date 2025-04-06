@@ -66,7 +66,27 @@ def create_month_filter(df, column_name='WAVE', id_prefix=''):
         )
     ], className='filter-item')
 
+def create_title(title):
 
+    return  html.Div([
+                html.H3(title),
+                html.Div(id='visit-count'),
+                html.Div([
+                    html.Div([
+                        html.Div(className="legend-color legend-low"),
+                        html.Span("Below 50", className="legend-text")
+                    ], className="legend-item"),
+                    html.Div([
+                        html.Div(className="legend-color legend-medium"),
+                        html.Span("50-74", className="legend-text")
+                    ], className="legend-item"),
+                    html.Div([
+                        html.Div(className="legend-color legend-high"),
+                        html.Span("75+", className="legend-text")
+                    ], className="legend-item"),
+                ], className="score-legend")
+            ], className="title")
+            
 
 # Helper functions
 def generate_card(title, score, icon_type):

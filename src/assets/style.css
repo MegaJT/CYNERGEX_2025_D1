@@ -24,7 +24,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    margin: 20px;
+    margin: 5px;
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 8px;
@@ -156,6 +156,43 @@
     text-align: center;
     
     }
+
+.score-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.legend-low {
+    background-color: #e60909; /* Red for low scores */
+}
+
+.legend-medium {
+    background-color: #e6a817; /* Yellow for medium scores */
+}
+
+.legend-high {
+    background-color: #2e8540; /* Green for high scores */
+}
+
+.legend-text {
+    font-size: 14px;
+}    
 
 
 /*NAVBAR*/

@@ -2,7 +2,7 @@ import dash
 from dash import html, dcc, callback, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
-from helper import load_data,generate_card, create_bar_chart, create_metric_chart,Month_Dict,create_month_filter
+from helper import load_data,generate_card, create_bar_chart, create_metric_chart,Month_Dict,create_month_filter,create_title
 from flask_login import current_user
 
 
@@ -37,11 +37,7 @@ def layout():
     user_df = get_user_filtered_df()
     return html.Div([
         # Add this to your branch.py layout, right after the filters-container div
-        html.Div([
-        html.H3("Branch Evaluation"),
-        html.Div(id='visit-count') 
-        ], className="title"),
-
+            
         html.Div(id='branch-trigger', style={'display': 'none'}),
         
         html.Div([
@@ -80,7 +76,9 @@ def layout():
                 )
             ], className='filter-item'),
         ], className='filters-container'),
-        
+
+        create_title("Branch Evaluation"),
+
         # Cards section
         html.Div(id='cards-container_b', className='card-container'),
         
@@ -95,6 +93,7 @@ def layout():
      Input('branch-name-dropdown', 'value'),
      Input('nationality-dropdown', 'value'),
      Input('branch-month-dropdown', 'value')])
+
 def update_visit_count(appointment_type, branch_name, nationality, month):
     # Filter data based on selections
     filtered_df = get_user_filtered_df()

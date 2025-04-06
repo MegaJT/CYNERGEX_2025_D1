@@ -2,7 +2,7 @@ import dash
 from dash import html, dcc, callback, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
-from helper import load_data,generate_card, create_bar_chart, create_metric_chart,create_month_filter
+from helper import load_data,generate_card, create_bar_chart, create_metric_chart,create_month_filter,create_title
 
 dash.register_page(__name__, path='/contact', title='Contact Centre', order=2)
 
@@ -18,13 +18,10 @@ def safe_round_mean(series):
 
 
 layout = html.Div([
-   html.Div([
-        html.H3("Contact Center Evaluation"),
-        html.Div(id='visit-count-cc') 
-        ], className="title"),
     html.Div(id='contact-trigger', style={'display': 'none'}),
 
     create_month_filter(df, column_name='WAVE', id_prefix='contact-'),
+    create_title("Contact Centre Evaluation"),
     # # Cards section
     html.Div(id='cards-container_cc', className='card-container'),
     

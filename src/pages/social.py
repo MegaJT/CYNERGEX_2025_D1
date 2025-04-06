@@ -2,7 +2,7 @@ import dash
 from dash import html, dcc, callback, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
-from helper import load_data,generate_card, create_bar_chart, create_metric_chart,create_month_filter
+from helper import load_data,generate_card, create_bar_chart, create_metric_chart,create_month_filter,create_title
 import numpy as np
 
 
@@ -23,15 +23,12 @@ def safe_round_mean(series):
     return 0 if pd.isna(mean_val) else round(mean_val)
 
 layout = html.Div([
-    html.Div([
-        html.H3("Social Media Evaluation"),
-        html.Div(id='visit-count-sm') 
-        ], className="title"),
-
+    
     html.Div(id='social-trigger', style={'display': 'none'}),
 
 
     create_month_filter(df, column_name='WAVE', id_prefix='social-'),
+    create_title("Social Media Evaluation"),
 # # Cards section
     html.Div(id='cards-container_sm', className='card-container'),
     
