@@ -77,7 +77,7 @@ def layout():
             ], className='filter-item'),
         ], className='filters-container'),
 
-        create_title("Branch Evaluation"),
+        create_title("Branch Evaluation","visit-count-br"),
 
         # Cards section
         html.Div(id='cards-container_b', className='card-container'),
@@ -88,7 +88,7 @@ def layout():
 
 
 @callback(
-    Output('visit-count', 'children'),
+    Output('visit-count-br', 'children'),
     [Input('appointment-type-dropdown', 'value'),
      Input('branch-name-dropdown', 'value'),
      Input('nationality-dropdown', 'value'),

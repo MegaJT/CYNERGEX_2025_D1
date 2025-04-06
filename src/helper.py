@@ -66,11 +66,11 @@ def create_month_filter(df, column_name='WAVE', id_prefix=''):
         )
     ], className='filter-item')
 
-def create_title(title):
+def create_title(title,visit_id):
 
     return  html.Div([
                 html.H3(title),
-                html.Div(id='visit-count'),
+                html.Div(id=visit_id),
                 html.Div([
                     html.Div([
                         html.Div(className="legend-color legend-low"),

@@ -28,7 +28,7 @@ layout = html.Div([
 
 
     create_month_filter(df, column_name='WAVE', id_prefix='social-'),
-    create_title("Social Media Evaluation"),
+    create_title("Social Media Evaluation",'visit-count-sm'),
 # # Cards section
     html.Div(id='cards-container_sm', className='card-container'),
     

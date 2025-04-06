@@ -21,7 +21,7 @@ layout = html.Div([
     html.Div(id='contact-trigger', style={'display': 'none'}),
 
     create_month_filter(df, column_name='WAVE', id_prefix='contact-'),
-    create_title("Contact Centre Evaluation"),
+    create_title("Contact Centre Evaluation",'visit-count-cc'),
     # # Cards section
     html.Div(id='cards-container_cc', className='card-container'),
     
