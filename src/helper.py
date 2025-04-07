@@ -66,27 +66,57 @@ def create_month_filter(df, column_name='WAVE', id_prefix=''):
         )
     ], className='filter-item')
 
-def create_title(title,visit_id):
-
-    return  html.Div([
-                html.H3(title),
-                html.Div(id=visit_id),
+def create_title(title, visit_id):
+    return html.Div([
+        # 1. Title first
+        html.H3(title, style={"margin-bottom": "1px"}),
+        
+        # 2. Legend second
+        html.Div([
+            html.Div([
+                html.Div(className="legend-color legend-low"),
                 html.Div([
+                    html.Span("Below 50", className="legend-text"),
                     html.Div([
-                        html.Div(className="legend-color legend-low"),
-                        html.Span("Below 50", className="legend-text")
-                    ], className="legend-item"),
-                    html.Div([
-                        html.Div(className="legend-color legend-medium"),
-                        html.Span("50-74", className="legend-text")
-                    ], className="legend-item"),
-                    html.Div([
-                        html.Div(className="legend-color legend-high"),
-                        html.Span("75+", className="legend-text")
-                    ], className="legend-item"),
-                ], className="score-legend")
-            ], className="title")
+                        html.Strong("Unacceptable", className="legend-category "),
+                        html.P("Incidence of adherence is less than 50%", className="legend-description"),
+                        html.P("Not close to expectations or defined practice/protocol; absolute ignorance and apathy is apparent. (immediate attention required!)", 
+                              className="legend-detail")
+                    ], className="legend-expanded text-low")
+                ], className="legend-content")
+            ], className="legend-item", style={"background": "rgba(0,0,0,0.5)", "margin": "0 25px"}),
             
+            html.Div([
+                html.Div(className="legend-color legend-medium"),
+                html.Div([
+                    html.Span("50-74", className="legend-text"),
+                    html.Div([
+                        html.Strong("Satisfactory", className="legend-category"),
+                        html.P("Adherence is more than 50% but less than 3/4th", className="legend-description"),
+                        html.P("Ignorance apparent but apathy is not. Shows good initiative. Room for improvement (perhaps more training...)", 
+                              className="legend-detail")
+                    ], className="legend-expanded text-medium")
+                ], className="legend-content")
+            ], className="legend-item", style={"background": "rgba(0,0,0,0.5)", "margin": "0 25px"}),
+            
+            html.Div([
+                html.Div(className="legend-color legend-high"),
+                html.Div([
+                    html.Span("75+", className="legend-text"),
+                    html.Div([
+                        html.Strong("Exemplary", className="legend-category"),
+                        html.P("Adherence to best practices is at least 3 out of 4 times", className="legend-description"),
+                        html.P("Leads by example, an exemplary and memorable showroom experience, commendable etiquettes and a role model.", 
+                              className="legend-detail")
+                    ], className="legend-expanded text-high")
+                ], className="legend-content")
+            ], className="legend-item", style={"background": "rgba(0,0,0,0.5)", "margin": "0 25px"}),
+        ], className="score-legend", style={"justify-content": "space-around", "padding": "10px 0", "margin-bottom": "10px"}),
+        
+        # 3. Base (number of visits) last
+        html.Div(id=visit_id, style={"font-size": "14px", "font-weight": "bold", "margin-top": "5px", "color": "#f0f0f0"}),
+        
+    ], className="title")
 
 # Helper functions
 def generate_card(title, score, icon_type):
@@ -110,6 +140,16 @@ def generate_card(title, score, icon_type):
     ], className=card_class)
 
 def create_bar_chart(title, values, labels):
+    # Create color array based on values
+    colors = []
+    for value in values:
+        if value < 50:
+            colors.append('#e60909')  # Red for low scores
+        elif value < 75:
+            colors.append('#e6a817')  # Yellow/amber for medium scores
+        else:
+            colors.append('#2e8540')  # Green for high scores
+
     fig = go.Figure()
     fig.add_trace(
         go.Bar(
@@ -117,8 +157,8 @@ def create_bar_chart(title, values, labels):
             x=values,
             orientation='h',
             marker=dict(
-                color='#9d3834',
-                line_color='#9d3834',
+                color=colors,
+                line_color=colors,
                 line_width=4,
                 opacity=0.4
             ),

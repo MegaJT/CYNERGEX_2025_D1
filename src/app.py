@@ -87,7 +87,7 @@ navbar = html.Div([
                 dcc.Link("Branch", href="/branch", className="nav-link")
             ]),
             html.Li([
-                dcc.Link("Contact Centre", href="/contact", className="nav-link")
+                dcc.Link("Direct Contact Centre", href="/contact", className="nav-link")
             ]),
             html.Li([
                 dcc.Link("Website", href="/website", className="nav-link")

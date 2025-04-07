@@ -25,7 +25,7 @@
     flex-wrap: wrap;
     gap: 20px;
     margin: 5px;
-    padding: 15px;
+    padding: 5px;
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -129,8 +129,7 @@
     }
 
 .banner {
-    background-color: #110302;
-    background-color: #9d3834;
+    
     background-color: #B01030;
     color: white;
     padding: 1px;
@@ -145,6 +144,7 @@
     }
 .title {
     background-color: #11030293;
+    
     color: white;
     padding: 1px;
     display: flex;
@@ -156,45 +156,140 @@
     text-align: center;
     
     }
-
+/* Legend styling */
 .score-legend {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
-    gap: 20px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+    background-color: transparent; /* Ensure transparent background */
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .legend-item {
     display: flex;
-    align-items: center;
-    margin-right: 15px;
+    align-items: flex-start;
+    margin: 0 5px;
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.9); /* Add white background with opacity */
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+/* Update these CSS rules in your stylesheet */
+.legend-expanded {
+    display: none;
+    position: absolute;
+    top: 100%;
+    /* Change left positioning to be dynamic based on position */
+    left: 50%;
+    transform: translateX(-50%); /* Center the popup */
+    width: 300px;
+    background: white;
+    
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 100;
+    color: #333;
+    text-align: left; /* Ensure text is left-aligned for readability */
+}
+
+/* Add this to handle the rightmost item specifically */
+.legend-item:last-child .legend-expanded {
+    left: auto;
+    right: 0;
+    transform: none; /* Don't center this one */
+}
+
+/* Add this to handle the leftmost item specifically */
+.legend-item:first-child .legend-expanded {
+    left: 0;
+    transform: none; /* Don't center this one */
+}
+/* Add this to your CSS */
 .legend-color {
     width: 20px;
     height: 20px;
-    border-radius: 4px;
     margin-right: 5px;
-    margin-bottom: 5px;
+    border-radius: 3px;
 }
 
+/* Text colors for legend items */
+.text-low {
+    color: #e60909;
+}
+
+.text-medium {
+    color: #e6a817;
+}
+
+.text-high {
+    color: #2e8540;
+}
+
+/* Update the expanded legend category text colors to match their indicators */
+.legend-item:nth-child(1) .legend-expanded  {
+    color: #e60909; /* Red for "Unacceptable" text */
+    font-weight: bold;
+}
+
+.legend-item:nth-child(2) .legend-expanded .legend-category {
+    color: #e6a817; /* Yellow/amber for "Satisfactory" text */
+    font-weight: bold;
+}
+
+.legend-item:nth-child(3) .legend-expanded .legend-category {
+    color: #2e8540; /* Green for "Exemplary" text */
+    font-weight: bold;
+}
 .legend-low {
-    background-color: #e60909; /* Red for low scores */
+    background-color: #e60909; /* Match your card-score-low color */
+    
 }
 
 .legend-medium {
-    background-color: #e6a817; /* Yellow for medium scores */
+    background-color: #e6a817; /* Match your card-score-medium color */
 }
 
 .legend-high {
-    background-color: #2e8540; /* Green for high scores */
+    background-color: #2e8540; /* Match your card-score-high color */
+}
+
+.legend-content {
+    position: relative;
 }
 
 .legend-text {
     font-size: 14px;
-}    
+    font-weight: 500;
+    color: white; /* Make text white to be visible on dark background */
+}
 
+.legend-item:hover .legend-expanded {
+    display: block; /* This is crucial - shows expanded content on hover */
+}
 
+.legend-category {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    
+}
+
+.legend-description {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.legend-detail {
+    font-size: 12px;
+    margin-bottom: 0;
+}
 /*NAVBAR*/
 
 .nav-container {

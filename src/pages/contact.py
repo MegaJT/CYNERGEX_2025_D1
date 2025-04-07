@@ -21,7 +21,7 @@ layout = html.Div([
     html.Div(id='contact-trigger', style={'display': 'none'}),
 
     create_month_filter(df, column_name='WAVE', id_prefix='contact-'),
-    create_title("Contact Centre Evaluation",'visit-count-cc'),
+    create_title("Direct Contact Centre Evaluation",'visit-count-cc'),
     # # Cards section
     html.Div(id='cards-container_cc', className='card-container'),
     
@@ -124,12 +124,12 @@ def update_charts_cc(month):
     'iQ2e': 'Agent personalization.',
     'iQ2f': 'Agent manner',
     'iQ2g': "Agent communication clarity",
-    'iQ2h':"Agent inquiries.",
-    'iQ2i_1':"Agent actions.",
-    'iQ2i_2':"Agent action recorded.",
-    'iQ2k_1':"Agent appointment confirmation.",
-    'iQ2l':"Appointment confirmation received.",
-    'iQ2m':"Average call duration.",
+    'iQ2h':"Agent inquiries",
+    'iQ2i_1':"Agent actions",
+    'iQ2i_2':"Agent action recorded",
+    'iQ2k_1':"Agent appointment confirmation",
+    'iQ2l':"Appointment confirmation received",
+    'iQ2m':"Average call duration",
 
     }
 
