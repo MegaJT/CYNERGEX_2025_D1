@@ -74,7 +74,7 @@ def update_cards_cc(month):
 
     
     # Create cards
-    card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
+    card1 = generate_card('OVERALL CONTACT CENTER EVALUATION', overall_score, "fas fa-certificate")
     card2 = generate_card('INITIAL GREETING', initial_greet_score, "fas fa-handshake")
     card3 = generate_card('CALL AGENT GREETING', agent_greet_score, "fas fa-handshake")
     card4 = generate_card('SALES CONSULTANT INTERACTION', agent_ineraction_score, "fas fa-users")
@@ -143,14 +143,14 @@ def update_charts_cc(month):
 
 
     INTERACTION_METRICS = {
-    'iQ3a':"Sales consultant call received.",
-    'iQ3b':"Sales consultant contact time.",
-    'iQ3d':"Sales consultant actions.",
-    'iQ3e':"Sales consultant attentiveness.",
-    'iQ3f':"Sales consultant recommendation.",
-    'iQ3g':"Sales consultant personalization.",
-    'iQ3h':"Sales consultant manner.",
-    'iQ3i':"Sales consultant communication clarity.",
+    'iQ3a':"Sales consultant call received",
+    'iQ3b':"Sales consultant contact time",
+    'iQ3d':"Sales consultant actions",
+    'iQ3e':"Sales consultant attentiveness",
+    'iQ3f':"Sales consultant recommendation",
+    'iQ3g':"Sales consultant personalization",
+    'iQ3h':"Sales consultant manner",
+    'iQ3i':"Sales consultant communication clarity",
 
     }
 
@@ -164,9 +164,9 @@ def update_charts_cc(month):
 
 
     IMPRESSION_METRICS = {
-    'iQ5a':"Follow-up call received.",
-    'iQ5b':"Follow-up call timing.",
-    'iQ5e':"Overall experience.",
+    'iQ5a':"Follow-up call received",
+    'iQ5b':"Follow-up call timing",
+    'iQ5e':"Overall experience",
 
         }
 

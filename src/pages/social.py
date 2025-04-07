@@ -78,7 +78,7 @@ def update_cards_cc(month):
     overall_eval_score = safe_round_mean(filtered_df['wOVERALLEVALUATION']) if not filtered_df.empty and 'wOVERALLEVALUATION' in filtered_df.columns else 0
     
     # Create cards
-    card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
+    card1 = generate_card('OVERALL SOCIAL MEDIA EVALUATION', overall_score, "fas fa-certificate")
     card2 = generate_card('SOCIAL MEDIA AGENT EVALUATION', agent_score, "fas fa-handshake")
     card3 = generate_card('CALL AGENT GREETING', greet_score, "fas fa-handshake")
     card4 = generate_card('SALES CONSULTANT INTERACTION ', interaction_score, "fas fa-users")

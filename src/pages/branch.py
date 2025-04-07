@@ -158,20 +158,24 @@ def update_cards(appointment_type, branch_name, nationality,month):
     knowledge_score =round(filtered_df['wCONSULTANTKNOWLEDGE'].mean()) if not filtered_df.empty else 0
     closing_score =round(filtered_df['wClosing'].mean()) if not filtered_df.empty else 0
     facility_score =round(filtered_df['wFacilityEnvironment'].mean()) if not filtered_df.empty else 0
+    facility_around_score =round(filtered_df['wFacility'].mean()) if not filtered_df.empty else 0
     follow_up_score =round(filtered_df['wFollowup'].mean()) if not filtered_df.empty else 0
     
     # Create cards
-    card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
-    card2 = generate_card('OVERALL IMPRESSION', impression_score, "fas fa-crown")
+    card1 = generate_card('OVERALL BRANCH EVALUATION', overall_score, "fas fa-certificate")
+    card2 = generate_card('FACILITY AROUND THE SHOWROOM', facility_around_score, "fas fa-phone")
     card3 = generate_card('INITIAL GREET', initial_greet_score, "fas fa-handshake")
     card4 = generate_card('SALES CONSULTANT INTERACTION', interaction_score, "fas fa-users")
     card5 = generate_card('SALES CONSULTANT’S KNOWLEDGE', knowledge_score, "fas fa-brain")
     card6 = generate_card('CLOSING / FINANCE PROCESS / DOCUMENTATION ', closing_score, "fas fa-xmark")
-    card7 = generate_card('FACILITY AROUND THE SHOWROOM', facility_score, "fas fa-city")
+    card7 = generate_card('FACILITY ENVIORNMENT', facility_score, "fas fa-city")
     card8 = generate_card('POST VISIT COMMUNICATION/FOLLOW UP', follow_up_score, "fas fa-phone")
+    card9 = generate_card('OVERALL IMPRESSION', impression_score, "fas fa-crown")
+    
     
     if not filtered_df.empty:
-        return [card1, card2, card3, card4, card5, card6, card7, card8]
+        
+        return [card1, card2, card3, card4, card5, card6, card7, card8, card9]
     else:
         return[html.H1("No Data Available")]
 
@@ -221,10 +225,26 @@ def update_charts(appointment_type, branch_name, nationality,month):
     chart_title="OVERALL IMPRESSION"
     )
 
+    FACILITY_AROUND_METRICS = {
+    'iQ1a':"Parking Guidance -Appointment",
+    'iQ1b':"Parking Guidance -Walkin",
+    'iQ1c':"Parking Availiability",
+    }
+
+
+    # For impression metrics
+    ch_facility_around = create_metric_chart(
+    filtered_df=filtered_df,
+    metrics_dict= FACILITY_AROUND_METRICS,
+    chart_title="FACILITY AROUND THE SHOWROOM"
+    )
+
+
+
     INITIAL_GREET_METRICS = {
-    'iQ2a': 'Person at reception desk?',
-    'iQ2b': 'Time before greeting?',
-    'iQ2c': 'Reason for delay over 5 minutes?',
+    'iQ2a': 'Person at reception desk',
+    'iQ2b': 'Time before greeting',
+    'iQ2c': 'Reason for delay over 5 minutes',
     'iQ2d': 'Initial greeter',
     'iQ2e': 'Greeting style',
     'iQ2f': "Consultant's appearance"
@@ -315,13 +335,13 @@ def update_charts(appointment_type, branch_name, nationality,month):
     ch_facility = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=FACILITY_METRICS,
-    chart_title="FACILITY AROUND THE SHOWROOM"
+    chart_title="FACILITY ENVIORNMENT"
     )
 
     FOLLOWUP_METRICS = {
-    'iQ8a':"Sales follow-up?",
-    'iQ8b':"Call response time?",
-    'iQ8c':"Consultant's post-visit communication?",
+    'iQ8a':"Sales follow-up",
+    'iQ8b':"Call response time",
+    'iQ8c':"Consultant's post-visit communication",
     }
 
     ch_followup = create_metric_chart(
@@ -331,7 +351,7 @@ def update_charts(appointment_type, branch_name, nationality,month):
     )
 
     # Create charts
-    charts = [ch_impression,ch_initial_greet,ch_interaction,ch_knowledge,ch_closing,ch_facility,ch_followup]
+    charts = [ch_facility_around,ch_initial_greet,ch_interaction,ch_knowledge,ch_closing,ch_facility,ch_followup,ch_impression]
 
     if not filtered_df.empty:
         return charts

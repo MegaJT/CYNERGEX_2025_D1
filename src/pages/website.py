@@ -77,7 +77,7 @@ def update_cards_ws(month):
     impression_score =safe_round_mean(filtered_df['wOVERALLIMPRESSION']) if not filtered_df.empty and 'wOVERALLIMPRESSION' in filtered_df.columns else 0
     
     # Create cards
-    card1 = generate_card('OVERALL SCORE', overall_score, "fas fa-certificate")
+    card1 = generate_card('OVERALL WEBSITE EVALUATION', overall_score, "fas fa-certificate")
     card2 = generate_card('WEBSITE VISIT AND REGISTERING QUERY', registeringquery_score, "fas fa-file-signature")
     card3 = generate_card('CALL AGENT GREETING', greet_score, "fas fa-handshake")
     card4 = generate_card('SALES CONSULTANT INTERACTION', ineraction_score, "fas fa-users")
@@ -112,7 +112,7 @@ def update_charts_ws(month):
     'iQ3': 'Website information completeness',
     'iQ4': 'Model availability',
     'iQ5': 'Successful Brochure request',
-    'iQ6': 'Response recieved?',
+    'iQ6': 'Response recieved',
     'iQ6_3': 'Mode of response',
     'iQ6_4': 'Confirm the test drive',
     'iQ7': 'Brochure download',
@@ -131,15 +131,15 @@ def update_charts_ws(month):
     'iQ9b': 'Background noise level',
     'iQ9c': 'Greeting quality',
     'iQ9d': 'Agent attentiveness',
-    'iQ9e': 'Agent personalization.',
+    'iQ9e': 'Agent personalization',
     'iQ9f': 'Agent manner',
     'iQ9g': "Agent communication clarity",
-    'iQ9h':"Agent inquiries.",
-    'iQ9i':"Agent actions.",
-    'iQ9j':"Agent action recorded.",
-    'iQ9k':"Agent appointment confirmation.",
-    'iQ2l':"Appointment confirmation received.",
-    'iQ9m':"Average call duration.",
+    'iQ9h':"Agent inquiries",
+    'iQ9i':"Agent actions",
+    'iQ9j':"Agent action recorded",
+    'iQ9k':"Agent appointment confirmation",
+    'iQ2l':"Appointment confirmation received",
+    'iQ9m':"Average call duration",
 
     }
 
