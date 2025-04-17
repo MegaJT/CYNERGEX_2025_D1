@@ -75,10 +75,10 @@ def update_cards_cc(month):
     
     # Create cards
     card1 = generate_card('OVERALL CONTACT CENTER EVALUATION', overall_score, "fas fa-certificate")
-    card2 = generate_card('INITIAL GREETING', initial_greet_score, "fas fa-handshake")
-    card3 = generate_card('CALL AGENT GREETING', agent_greet_score, "fas fa-handshake")
-    card4 = generate_card('SALES CONSULTANT INTERACTION', agent_ineraction_score, "fas fa-users")
-    card5 = generate_card('OVERALL IMPRESSION', impression_score, "fas fa-crown")
+    card2 = generate_card('1️ INITIAL GREETING', initial_greet_score, "fas fa-handshake")
+    card3 = generate_card('2️ CALL AGENT GREETING', agent_greet_score, "fas fa-handshake")
+    card4 = generate_card('3️ SALES CONSULTANT INTERACTION', agent_ineraction_score, "fas fa-users")
+    card5 = generate_card('4️ OVERALL IMPRESSION', impression_score, "fas fa-crown")
     
     
     
@@ -105,8 +105,9 @@ def update_charts_cc(month):
     
     
     INITIAL_GREET_METRICS = {
-        'iQ1a': 'Call attempts',
-        'iQ1b': 'Call back time',
+    "iQ1a":"Q1a.No of attempts for connecting",
+    "iQ1b":"Q1b.Did receive a call after first attempt?",
+
     }    
 
 
@@ -114,22 +115,23 @@ def update_charts_cc(month):
     ch_initial_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INITIAL_GREET_METRICS,
-    chart_title="INITIAL GREETING"
+    chart_title="1️ INITIAL GREETING"
     )
 
     AGENT_GREET_METRICS = {
-    'iQ2b': 'Background noise level',
-    'iQ2c': 'Greeting quality',
-    'iQ2d': 'Agent attentiveness',
-    'iQ2e': 'Agent personalization.',
-    'iQ2f': 'Agent manner',
-    'iQ2g': "Agent communication clarity",
-    'iQ2h':"Agent inquiries",
-    'iQ2i_1':"Agent actions",
-    'iQ2i_2':"Agent action recorded",
-    'iQ2k_1':"Agent appointment confirmation",
-    'iQ2l':"Appointment confirmation received",
-    'iQ2m':"Average call duration",
+    "iQ2b":"Q2b.Background Noise on Call",
+    "iQ2c":"Q2c.Was call agent polite and assisting?",
+    "iQ2d":"Q2d.Call Agent Attentiveness",
+    "iQ2e":"Q2e.Did Call Agent Personalize Interaction?",
+    "iQ2f":"Q2f.Call Agent's Manners",
+    "iQ2g":"Q2g.Clarity of Call Agent's communication",
+    "iQ2h":"Q2h.Did Call Agent asked relevant information?",
+    "iQ2i_1":"Q2i_1.Did Call Agent give right information?",
+    "iQ2i_2":"Q2i_2.Did Call Agent Confirms Appointment?",
+    "iQ2k_1":"Q2k_1.Did Call Agent asked if appointment date is fine?",
+    "iQ2l":"Q2l.Did customer get a confirmation on appointment?",
+    "iQ2m":"Q2m.Average time spent on call?",
+
 
     }
 
@@ -138,35 +140,36 @@ def update_charts_cc(month):
     ch_agent_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=AGENT_GREET_METRICS,
-    chart_title="CALL AGENT GREETING"
+    chart_title="2️ CALL AGENT GREETING"
     )
 
 
     INTERACTION_METRICS = {
-    'iQ3a':"Sales consultant call received",
-    'iQ3b':"Sales consultant contact time",
-    'iQ3d':"Sales consultant actions",
-    'iQ3e':"Sales consultant attentiveness",
-    'iQ3f':"Sales consultant recommendation",
-    'iQ3g':"Sales consultant personalization",
-    'iQ3h':"Sales consultant manner",
-    'iQ3i':"Sales consultant communication clarity",
+    "iQ3a":"Q3a.Did SC call back?",
+    "iQ3b":"Q3b.Time to receive call from SC?",
+    "iQ3d":"Q3d.Did SC understand about family & needs?",
+    "iQ3e":"Q3e.SC's attentiveness",
+    "iQ3f":"Q3f.Did SC summarize the need?",
+    "iQ3g":"Q3g.Did SC Personalize the conversation?",
+    "iQ3h":"Q3h.SC's manners throughout the interaction",
+    "iQ3i":"Q3i.Clarity of SC's communication",
+
 
     }
 
-
+    #print(filtered_df['iQ3b'].mean(skipna=True))
     ch_interaction = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INTERACTION_METRICS,
-    chart_title="SALES CONSULTANT INTERACTION"
+    chart_title="3️ SALES CONSULTANT INTERACTION"
     )
 
-
-
+    
     IMPRESSION_METRICS = {
-    'iQ5a':"Follow-up call received",
-    'iQ5b':"Follow-up call timing",
-    'iQ5e':"Overall experience",
+    "iQ5a":"Q5a.Followup call prior to branch visit",
+    "iQ5b":"Q5b.Time taken for followup-call",
+    "iQ5e":"Q5e.Overall Experience with dealership",
+
 
         }
 
@@ -174,7 +177,7 @@ def update_charts_cc(month):
     ch_impression = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=IMPRESSION_METRICS,
-    chart_title="OVERALL IMPRESSION"
+    chart_title="4️ OVERALL IMPRESSION"
     )
     
     

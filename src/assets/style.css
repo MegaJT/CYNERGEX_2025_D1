@@ -360,6 +360,10 @@
     padding: 10px;
     gap: 10px;
     width:100%;
+    position:sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8f9fa;
 
 }
     

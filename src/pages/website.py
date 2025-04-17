@@ -78,10 +78,10 @@ def update_cards_ws(month):
     
     # Create cards
     card1 = generate_card('OVERALL WEBSITE EVALUATION', overall_score, "fas fa-certificate")
-    card2 = generate_card('WEBSITE VISIT AND REGISTERING QUERY', registeringquery_score, "fas fa-file-signature")
-    card3 = generate_card('CALL AGENT GREETING', greet_score, "fas fa-handshake")
-    card4 = generate_card('SALES CONSULTANT INTERACTION', ineraction_score, "fas fa-users")
-    card5 = generate_card('OVERALL IMPRESSION (WEBSITE)', impression_score, "fas fa-crown")
+    card2 = generate_card('1️ WEBSITE FUNCTIONALITY AND DIGITAL RESPONSE', registeringquery_score, "fas fa-file-signature")
+    card3 = generate_card('2️ CALL AGENT GREETING', greet_score, "fas fa-handshake")
+    card4 = generate_card('3️ SALES CONSULTANT INTERACTION', ineraction_score, "fas fa-users")
+    card5 = generate_card('4️ OVERALL IMPRESSION (WEBSITE)', impression_score, "fas fa-crown")
     
     
     if not filtered_df.empty:
@@ -107,16 +107,16 @@ def update_charts_ws(month):
     
     
     REGISTRATION_METRICS = {
-    'iQ1': 'Website navigation',
-    'iQ2': 'Functionality checklist',
-    'iQ3': 'Website information completeness',
-    'iQ4': 'Model availability',
-    'iQ5': 'Successful Brochure request',
-    'iQ6': 'Response recieved',
-    'iQ6_3': 'Mode of response',
-    'iQ6_4': 'Confirm the test drive',
-    'iQ7': 'Brochure download',
-    'iQ8': 'Quote callback',
+    "iQ1":"Q1.Was Website Functional?",
+    "iQ2":"Q2.Features available?",
+    "iQ3":"Q3.Enough Information about contacts & locations?",
+    "iQ4":"Q4.Section for Brochures/Test Drive /  Quotation",
+    "iQ5":"Q5.Request sent successfully?",
+    "iQ6":"Q6.Did dealrship contact for test drive?",
+    "iQ6_4":"Q6_4.Test Drive Confirmed?",
+    "iQ7":"Q7.Brochure download",
+    "iQ8":"Q8.Call for quotation?",
+
     }    
 
 
@@ -124,22 +124,23 @@ def update_charts_ws(month):
     ch_initial_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=REGISTRATION_METRICS,
-    chart_title="WEBSITE VISIT AND REGISTERING QUERY"
+    chart_title="1️ WEBSITE FUNCTIONALITY AND DIGITAL RESPONSE"
     )
 
     AGENT_GREET_METRICS = {
-    'iQ9b': 'Background noise level',
-    'iQ9c': 'Greeting quality',
-    'iQ9d': 'Agent attentiveness',
-    'iQ9e': 'Agent personalization',
-    'iQ9f': 'Agent manner',
-    'iQ9g': "Agent communication clarity",
-    'iQ9h':"Agent inquiries",
-    'iQ9i':"Agent actions",
-    'iQ9j':"Agent action recorded",
-    'iQ9k':"Agent appointment confirmation",
-    'iQ2l':"Appointment confirmation received",
-    'iQ9m':"Average call duration",
+    "iQ9b":"Q9b.Backgrpound Noise on Call",
+    "iQ9c":"Q9c.Was call agent polite and assisting?",
+    "iQ9d":"Q9d.Call Agent Attentiveness",
+    "iQ9e":"Q9e.Did Call Agent Personalize Interaction?",
+    "iQ9f":"Q9f.Call Agent's Manners",
+    "iQ9g":"Q9g.Clarity of Call Agent's communication",
+    "iQ9h":"Q9h.Did Call Agent asked relevant information?",
+    "iQ9i":"Q9i.Did Call Agent give right information?",
+    "iQ9j":"Q9j.Did Call Agent Confirms Appointment?",
+    "iQ9k":"Q9k.Did Call Agent asked if appointment date is fine?",
+    "iQ2l":"Q2l.Did customer get a confirmation on appointment?",
+    "iQ9m":"Q9m.Average time spent on call?",
+
 
     }
 
@@ -148,35 +149,37 @@ def update_charts_ws(month):
     ch_agent_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=AGENT_GREET_METRICS,
-    chart_title="CALL AGENT GREETING"
+    chart_title="2️ CALL AGENT GREETING"
     )
 
 
     INTERACTION_METRICS = {
-    'iQ10a':"Sales consultant call received",
-    'iQ10b':"Time taken to contact by consultant",
-    'iQ10d':"Consultant's actions during interaction",
-    'iQ10e':"Consultant's attentiveness level",
-    'iQ10f':"Consultant's vehicle recommendation approach",
-    'iQ19g':"Consultant's personalization actions",
-    'iQ10h':"Consultant's interaction manner",
-    'iQ10i':"Consultant's communication clarity",
+    "iQ10a":"Q10a.Followup call prior to branch visit",
+    "iQ10b":"Q10b.Time taken for followup-call",
+    "iQ10d":"Q10d.Did Call Agent give right information?",
+    "iQ10e":"Q10e.SC's attentiveness",
+    "iQ10f":"Q10f.Did SC summarize the need?",
+    "iQ19g":"Q19g.Did SC Personalize the conversation?",
+    "iQ10h":"Q10h.SC's manners throughout the interaction",
+    "iQ10i":"Q10i.Clarity of SC's communication",
+
     }
 
 
     ch_interaction = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INTERACTION_METRICS,
-    chart_title="SALES CONSULTANT INTERACTION"
+    chart_title="3️ SALES CONSULTANT INTERACTION"
     )
 
 
 
     IMPRESSION_METRICS = {
-    'iQ11a':"Follow-up call received before appointment",
-    'iQ11b':"Follow-up call timing before appointment",
-    'iQ11_1':"Website ease of use and navigation",
-    'iQ11_2':"Website experience with dealership/brand",
+    "iQ11a":"Q11a.Follow up prior to branch visit?",
+    "iQ11b":"Q11b.Time taken for followup call",
+    "iQ11_1":"Q11_1.Was website easy or inconvenient?",
+    "iQ11_2":"Q11_2.Overall Experience with Website",
+
 
         }
 
@@ -184,7 +187,7 @@ def update_charts_ws(month):
     ch_impression = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=IMPRESSION_METRICS,
-    chart_title="OVERALL IMPRESSION (WEBSITE)"
+    chart_title="4️ OVERALL IMPRESSION (WEBSITE)"
     )
     
     

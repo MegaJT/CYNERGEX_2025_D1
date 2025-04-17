@@ -79,10 +79,10 @@ def update_cards_cc(month):
     
     # Create cards
     card1 = generate_card('OVERALL SOCIAL MEDIA EVALUATION', overall_score, "fas fa-certificate")
-    card2 = generate_card('SOCIAL MEDIA AGENT EVALUATION', agent_score, "fas fa-handshake")
-    card3 = generate_card('CALL AGENT GREETING', greet_score, "fas fa-handshake")
-    card4 = generate_card('SALES CONSULTANT INTERACTION ', interaction_score, "fas fa-users")
-    card5 = generate_card('OVERALL EVALUATION', overall_eval_score, "fas fa-crown")
+    card2 = generate_card('1️ SOCIAL MEDIA RESPONSE/AGENT EVALUATION', agent_score, "fas fa-handshake")
+    card3 = generate_card('2️ CALL AGENT GREETING', greet_score, "fas fa-handshake")
+    card4 = generate_card('3️ SALES CONSULTANT INTERACTION ', interaction_score, "fas fa-users")
+    card5 = generate_card('4️ OVERALL EVALUATION', overall_eval_score, "fas fa-crown")
     
     
     if not filtered_df.empty:
@@ -107,15 +107,15 @@ def update_charts_cc(month):
 
     
     AGENT_METRICS = {
-        'iQ1':"Response time DM",
-        'iQ2 ':"Public response time",
-        'iQ2a':"First response mode",
-        'iQ3':"First response type",
-        'iQ4':"Agent's response type",
-        'iQ5':"Communication clarity",
-        'iQ6':"Agent's inquiries",
-        'iQ9':"Conversation closure type",
-        'iQ9a':"Test drive call received",
+        'iQ1':"Q1.Response time to Enquiry",
+        'iQ2 ':"Q2.Public response time",
+        'iQ2a':"Q2a.First response mode (Automated/SM Agent)",
+        'iQ3':"Q3.SM Agent Greeting",
+        'iQ4':"Q4.Satisfactory answer to Enquiry by SM Agent",
+        'iQ5':"Q5.Clarity of SM Agent Communication",
+        'iQ6':"Q6.Customer information asked",
+        'iQ9':"Q9.Postive closing remarks",
+        'iQ9a':"Q9a.Appointment call received",
     }    
 
 
@@ -123,22 +123,23 @@ def update_charts_cc(month):
     ch_initial_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=AGENT_METRICS,
-    chart_title="SOCIAL MEDIA AGENT EVALUATION"
+    chart_title="1️ SOCIAL MEDIA RESPONSE/AGENT EVALUATION"
     )
 
     AGENT_GREET_METRICS = {
-    'iQ10b':"Background noise level",
-    'iQ10c':"Call greeting type",
-    'iQ10d ':"Agent attentiveness level",
-    'iQ10e':"Agent personalization actions",
-    'iQ10f':"Agent's interaction manner",
-    'iQ10g':"Agent's communication clarity",
-    'iQ10h':"Agent's questions asked",
-    'iQ10i':"Agent's actions taken",
-    'iQ10i_1':"Agent's response action",
-    'iQ10k':"Agent's appointment confirmation",
-    'iQ10l ':"Appointment confirmation received",
-    'iQ10m':"Average call duration",
+    "iQ10b":"Q10b.  Background noise level",
+    "iQ10c":"Q10c.  Call greeting type",
+    "iQ10d":"Q10d. Agent attentiveness level",
+    "iQ10e":"Q10e.  Agent personalization actions",
+    "iQ10f":"Q10f.  Agent's interaction manner",
+    "iQ10g":"Q10g.  Agent's communication clarity",
+    "iQ10h":"Q10h.  Agent's questions asked",
+    "iQ10i":"Q10i.  Agent's actions taken",
+    "iQ10i_1":"Q10i_1.  Agent's response action",
+    "iQ10k":"Q10k.  Agent's appointment confirmation",
+    "iQ10l":"Q10l. Appointment confirmation received",
+    "iQ10m":"Q10m.  Average call duration",
+
 
 
     }
@@ -148,36 +149,35 @@ def update_charts_cc(month):
     ch_agent_greet = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=AGENT_GREET_METRICS,
-    chart_title="CALL AGENT GREETING"
+    chart_title="2️ CALL AGENT GREETING"
     )
 
 
     INTERACTION_METRICS = {
-    'iQ11a':"Sales consultant call received",
-    'iQ11b':"Time to contact by consultant",
-    'iQ11d':"Consultant's actions taken",
-    'iQ11e':"Consultant's attentiveness level",
-    'iQ11f':"Consultant's vehicle recommendation",
-    'iQ11g':"Consultant's personalization actions",
-    'iQ11h':"Consultant's interaction manner",
-    'iQ11i':"Consultant's communication clarity",
+    "iQ11a":"Q11a.Sales consultant call received",
+    "iQ11b":"Q11b.Time to contact by consultant",
+    "iQ11d":"Q11d.Consultant's actions taken",
+    "iQ11e":"Q11e.Consultant's attentiveness level",
+    "iQ11f":"Q11f.Consultant's vehicle recommendation",
+    "iQ11g":"Q11g.Consultant's personalization actions",
+    "iQ11h":"Q11h.Consultant's interaction manner",
+    "iQ11i":"Q11i.Consultant's communication clarity",
 
-
-    }
+}
 
 
     ch_interaction = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=INTERACTION_METRICS,
-    chart_title="SALES CONSULTANT INTERACTION"
+    chart_title="3️ SALES CONSULTANT INTERACTION"
     )
 
 
 
     OVERALL_METRICS = {
-    'iQ12a':"Follow-up call received",
-    'iQ12b':"Follow-up call timing",
-    'iQ13':"Social media interaction experience",
+    'iQ12a':"Q12a.Follow-up call prior to visit",
+    'iQ12b':"Q12b.Timiing of that Follow-up call",
+    'iQ13':"Q13.Overall experience with Social Media",
 
 
         }
@@ -186,7 +186,7 @@ def update_charts_cc(month):
     ch_impression = create_metric_chart(
     filtered_df=filtered_df,
     metrics_dict=OVERALL_METRICS,
-    chart_title="OVERALL EVALUATION"
+    chart_title="4️ OVERALL EVALUATION"
     )
     
     

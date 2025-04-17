@@ -197,10 +197,10 @@ def create_bar_chart(title, values, labels):
         dcc.Graph(figure=fig, id=f"chart-{title.lower().replace(' ', '-')}")
     ], className='chart-container')
 
-#Chart Calcuation      
 def create_metric_chart(filtered_df, metrics_dict, chart_title):
     """
     Creates a bar chart from DataFrame columns with robust error handling.
+    Skips metrics that have no valid data (na values).
     
     Args:
         filtered_df (pd.DataFrame): Input data
@@ -211,9 +211,10 @@ def create_metric_chart(filtered_df, metrics_dict, chart_title):
         A Dash/Plotly chart component
     """
     values = []
-    for col in metrics_dict.keys():
+    labels = []
+    
+    for col, label in metrics_dict.items():
         if col not in filtered_df:
-            values.append(0)
             continue
             
         try:
@@ -221,13 +222,57 @@ def create_metric_chart(filtered_df, metrics_dict, chart_title):
             numeric_series = pd.to_numeric(filtered_df[col], errors='coerce')
             # Calculate mean, skipping NaN values
             mean_val = numeric_series.mean(skipna=True)
-            values.append(round(mean_val) if not pd.isna(mean_val) else 0)
+            
+            # Only add to chart if the value is valid (not NaN)
+            if not pd.isna(mean_val):
+                values.append(round(mean_val))
+                labels.append(label)
         except:
-            values.append(0)
+            continue
     
-    return create_bar_chart(
-        title=chart_title,
-        values=values,
-        labels=list(metrics_dict.values())
-    )
+    # Only create chart if we have data to display
+    if values and labels:
+        return create_bar_chart(
+            title=chart_title,
+            values=values,
+            labels=labels
+        )
+    else:
+        # Return empty div if no valid data
+        return html.Div(f"No data available for {chart_title}", style={"text-align": "center", "padding": "20px"})
+
+
+# #Chart Calcuation      
+# def create_metric_chart(filtered_df, metrics_dict, chart_title):
+#     """
+#     Creates a bar chart from DataFrame columns with robust error handling.
+    
+#     Args:
+#         filtered_df (pd.DataFrame): Input data
+#         metrics_dict (dict): Dictionary of {column_name: label}
+#         chart_title (str): Title for the chart
+    
+#     Returns:
+#         A Dash/Plotly chart component
+#     """
+#     values = []
+#     for col in metrics_dict.keys():
+#         if col not in filtered_df:
+#             values.append(0)
+#             continue
+            
+#         try:
+#             # Convert column to numeric, coercing errors to NaN
+#             numeric_series = pd.to_numeric(filtered_df[col], errors='coerce')
+#             # Calculate mean, skipping NaN values
+#             mean_val = numeric_series.mean(skipna=True)
+#             values.append(round(mean_val) if not pd.isna(mean_val) else 0)
+#         except:
+#             values.append(0)
+    
+#     return create_bar_chart(
+#         title=chart_title,
+#         values=values,
+#         labels=list(metrics_dict.values())
+#     )
     
